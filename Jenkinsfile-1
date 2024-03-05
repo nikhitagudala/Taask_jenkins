@@ -1,19 +1,15 @@
 pipeline {
   agent none
+  parameters {
+    string(defaultValue: 'Nikhi', description: 'Enter your first name', name: 'FIRST_NAME', trim: true)
+  }
   stages {
     stage('input') {
       agent any
-      input {
-        message "What is your first name?"
-        ok "Submit"
-        parameters {
-          string(defaultValue: 'Nikhi', name: 'FIRST_NAME', trim: true) 
-        }
-      }
       steps {
-        echo "Good Morning, $FIRST_NAME"
+        echo "First name: ${params.FIRST_NAME}"
         sh '''
-          hostname
+          ./your_script.sh ${params.FIRST_NAME}
         '''
       }
     }
